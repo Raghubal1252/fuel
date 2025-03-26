@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="employee_shift_dashboard_action" model="ir.actions.client">
+            <field name="name">Employee Shift Master</field>
+            <field name="tag">employee_shift_master</field>
+        </record>
+        <menuitem
+            name="Employee Shift Dashboard"
+            id="menu_hr_shift_dashboard"
+            parent="hr.menu_hr_root"
+            action="employee_shift_dashboard_action"/>
+    </data>
+</odoo>

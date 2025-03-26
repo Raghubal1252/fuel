@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="hr_employee_shift_view_form" model="ir.ui.view">
+            <field name="name">hr.employee.view.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="work_email" position="after">
+                    <field name="shifts_id" options="{'no_open': True, 'no_create': True}"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Employee Shift Manage">
+                        <field name="employee_shift_ids">
+                            <list editable="bottom">
+                                <field name="employee_id"/>
+                                <field name="shift_id"/>
+                                <field name="shift_work_schedule"/>
+                                <field name="pump_id" domain="[('parent_id', '!=', False), ('pump_sale_type', '=', 'nozzle')]"/>
+                                
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="inherit_petrol_station_pump_form" model="ir.ui.view">
+            <field name="name">petrol.station.pump.form.inherit</field>
+            <field name="model">petrol.station.pump</field>
+            <field name="inherit_id" ref="petrol_station_dashboard.petrol_station_pump_form"/>  
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="shifts_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="emploayee_shift_maintainenece">
+        <div class="container">
+            <div class="d-flex justify-content-center my-3">
+                <h1>Employees Shift Dashboard</h1>
+            </div>
+
+            <div class="d-flex justify-content-end"> 
+                <select class="form-select employee-select" style="width: 300px;" t-on-change="filterEmployees">
+                    <option value="">Select an Employee</option>
+                    <option t-foreach="data.employees" t-as="employee" t-key="employee.id"
+                            t-att-value="employee.id">
+                        <t t-esc="employee.name"/>
+                    </option>
+                </select>
+
+                <button class="btn btn-secondary" id="apply" type="submit" t-on-click="updatemployees">Create Shift</button>
+            </div>
+        </div>
+
+
+        <div>
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Shift Type</th>
+                        <th>Pump</th>
+                        <th>Nozzle</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr  t-foreach="data.filteredEmployees || data.employees" t-as="employee" 
+                        t-key="employee.id" t-att-data-employee-id="employee.id" class="employee-row">
+                    
+                        <td t-esc="employee.name"/>
+
+
+                        <td>
+                            <select class="form-select shift-select">
+                                <option value="">Select a shift</option>
+                                <option t-foreach="data.shift_types" t-as="shift" t-key="shift.id"
+                                    t-att-value="shift.id">
+                                    <t t-esc="shift.name"/>
+                                </option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <select class="form-select parent-select" t-on-change="fetchParent">
+                                <option value="">Select a Pump</option>
+                                <option t-foreach="data.parent_pumps" t-as="parentpump" t-key="parentpump.id"
+                                    t-att-value="parentpump.id">
+                                    <t t-esc="parentpump.name"/>
+                                </option>
+                            </select>
+                        </td>
+
+
+                        <td>
+                            <select class="form-select pump-select">
+                                <option value="">Select a Nozzle</option>
+                                <option t-foreach="employee.filtres_nozzel || []" t-as="pump" t-key="pump.id"
+                                    t-att-value="pump.id">
+                                    <t t-esc="pump.name"/>
+                                </option>
+                            </select>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>
