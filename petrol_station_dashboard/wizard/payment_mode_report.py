@@ -36,23 +36,30 @@ class PaymentModePDFReport(models.AbstractModel):
         end_date = datetime.strptime(end_date, '%Y-%m-%d')
         end_date_2 = start_date.strftime("%d-%m-%Y")
         journal = data['journal']
-
+        print("==============",journal)
         value = []
         j_name = []
         if journal:
             for k in journal:
+                print("------k--------",k)
                 journal_list = self.env['account.journal'].search([('id', '=', k)])
+                print("=====journal_list=====",journal_list)
+                
                 j_name.append(journal_list.name)
+                print("-------j_name----",j_name)
         if journal:
-            journal_dictionary = {journal_name: 0 for journal_name in j_name}
+            journal_dictionary = {journal_name: 0 for journal_name in journal_list}
+            print("---journal_dictionary---",journal_dictionary)
             total_amount = 0.00
             for k in journal:
+                print("----------",k)
                 payment = self.env['account.payment'].search([
                     ('date', '>=', start_date),
                     ('date', '<=', end_date),
                     ('journal_id', '=', k),
-                    ('state', '=', 'posted'),
+                    ('state', '=', 'paid'),
                 ])
+                print("-----payment-----",payment)
                 for pay in payment:
                     total_amount += round(pay.amount, 2)
                     val = {

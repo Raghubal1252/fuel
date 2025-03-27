@@ -26,6 +26,17 @@ class HrEmployeePrivate(models.Model):
 
     shift_id = fields.Many2one('employee.shift', string='Shift')
 
+    def emp_data(self):
+        emp_val = self.env["hr.employee"].search([])
+        print("--------------------",emp_val)
+        for i in emp_val:
+            print("================",i.employee_shift_ids.employee_id.name,"-----",i.employee_shift_ids.shift_id)
+
+            
+
+
+
+
 
 class Contract(models.Model):
     _inherit = 'hr.contract'

@@ -5,33 +5,11 @@ from io import BytesIO
 import base64
 from xlwt import easyxf
 
-
-class ShiftBasedReport(models.TransientModel):
-    _name = 'shift.base.report'
+class ShiftBasedFuelReport(models.TransientModel):
+    _inherit = 'shift.base.report'
     _description = 'Shift Based Report'
 
-    report_date = fields.Date(string='Date', default=lambda self: fields.Datetime.now())
-    start_date = fields.Datetime(string='Start Date', required=True, )
-    end_date = fields.Datetime(string='End Date', required=True, )
-    shift = fields.Many2many('employee.shift', string='Shift', required=True)
-    summary_file = fields.Binary('Report')
-    file_name = fields.Char('File Name')
-    report_printed = fields.Boolean('Excel Report')
-    user_id = fields.Many2one('res.users', 'User', default=lambda self: self.env.user)
-    company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
-
-    def get_pdf_report(self):
-        data = {
-            'ids': self.ids,
-            'model': self._name,
-            'form': {
-                'start_date': self.start_date,
-                'end_date': self.end_date,
-            },
-            'shift': [j for j in self.shift.ids],
-        }
-
-        return self.env.ref('petrol_station_dashboard.report_action_shift_base').report_action(self, data=data)
+    shift = fields.Many2many('shift.master', string='Shift', required=True)
 
     def get_excel_report(self):
         workbook = xlwt.Workbook()
@@ -49,8 +27,8 @@ class ShiftBasedReport(models.TransientModel):
 
         datas = []
         shift = [j for j in self.shift.ids]
-        shift_master = self.env['employee.shift'].search([('id', 'in', shift)])
-        shift_value = self.env['petrol.station.pump'].search([('shift_id', 'in', shift)])
+        shift_master = self.env['shift.master'].search([('id', 'in', shift)])
+        shift_value = self.env['petrol.station.pump'].search([('shifts_id', 'in', shift)])
 
         for i in shift_master:
             datas.append({
@@ -60,7 +38,7 @@ class ShiftBasedReport(models.TransientModel):
             })
         for j in datas:
             for i in shift_value:
-                if i.shift_id.id == j['id']:
+                if i.shifts_id.id == j['id']:
                     pump_data = {}
                     pump_val = []
                     for k in i.pump_entry_ids:
@@ -142,10 +120,10 @@ class ShiftBasedReport(models.TransientModel):
             'context': self.env.context,
             'target': 'new',
         }
+    
 
-
-class ShiftBaseReport(models.AbstractModel):
-    _name = 'report.petrol_station_dashboard.report_shift_wise_template'
+class ShiftBaseFuelReport(models.AbstractModel):
+    _inherit = 'report.petrol_station_dashboard.report_shift_wise_template'
     _description = 'Report Shift Based'
 
     def _get_report_values(self, docids, data=None):
@@ -154,8 +132,12 @@ class ShiftBaseReport(models.AbstractModel):
         shift = data['shift']
         datas = []
 
-        shift_master = self.env['employee.shift'].search([('id', 'in', shift)])
-        shift_value = self.env['petrol.station.pump'].search([('shift_id', 'in', shift)])
+        print("------shift-------",shift)
+
+        shift_master = self.env['shift.master'].search([('id', 'in', shift)])
+        print("=======shift_master========",shift_master)
+        shift_value = self.env['petrol.station.pump'].search([('shifts_id', 'in', shift)])
+        print("------shift_value------",shift_value)
 
         for i in shift_master:
             datas.append({
@@ -163,12 +145,16 @@ class ShiftBaseReport(models.AbstractModel):
                 'id': i.id,
                 'value': []
             })
+            print("-----------------------------------",datas)
         for j in datas:
             for i in shift_value:
-                if i.shift_id.id == j['id']:
+                print("--------i---------",i)
+                if i.shifts_id.id == j['id']:
                     pump_data = {}
                     pump_val = []
+                    print("======i=========",i)
                     for k in i.pump_entry_ids:
+                        print("+==++++++++++++++",k)
                         if start_date <= k.create_date <= end_date:
                             val = {
                                 'name': k.petrol_pump.name,

@@ -104,6 +104,7 @@ class EmployeeShiftManager(models.Model):
     shift_work_schedule = fields.Many2one('resource.calendar', related="shift_id.work_schedule", 
         store=True, string="Work Schedule")
     pump_id = fields.Many2one('petrol.station.pump',string="Nozzle")
+    check_closing = fields.Boolean(string="Check Closing",default="1")
 
 
 class PetrolStation(models.Model):

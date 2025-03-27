@@ -42,6 +42,8 @@ export class FuelNozzleDashboard extends Component{
             self.state.title = data['title']
             self.state.emp_data = data['emp_data']
             this.state.payment_mode = data['payment_mode']
+            var emp_data = await self.orm.call("hr.employee","emp_data",[[]]);
+            console.log("-----emp_data-----",emp_data);
 
         } catch (el) {
             window.location.href;

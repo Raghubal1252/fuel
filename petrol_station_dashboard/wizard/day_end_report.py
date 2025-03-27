@@ -88,8 +88,10 @@ class FuelDayEndPDFReport(models.AbstractModel):
         close_id = [ce.id for ce in close_entry]
         j_name = []
         for j in journal_list:
+            print("------j---------",j)
             j_name.append(j.name)
         journal_dictionary = {journal_name: 0 for journal_name in j_name}
+        print("----------journal_dictionary-----------",journal_dictionary)
         payment = self.env['account.payment'].search([('pay_ref', 'in', close_id)])
         expenses = self.env['hr.expense'].search([('pay_ref', 'in', close_id)])
         invoices = self.env['account.move'].search([('pay_ref', 'in', close_id), ('move_type', '=', 'out_invoice')])
