@@ -42,8 +42,8 @@ export class FuelNozzleDashboard extends Component{
             self.state.title = data['title']
             self.state.emp_data = data['emp_data']
             this.state.payment_mode = data['payment_mode']
-            var emp_data = await self.orm.call("hr.employee","emp_data",[[]]);
-            console.log("-----emp_data-----",emp_data);
+            // var emp_data = await self.orm.call("hr.employee","emp_data",[[]]);
+            // console.log("-----emp_data-----",emp_data);
 
         } catch (el) {
             window.location.href;
@@ -236,6 +236,18 @@ export class FuelNozzleDashboard extends Component{
         var id =pauseButton.getAttribute("ids");
         var en_type =pauseButton.getAttribute("type");
         event.preventDefault();
+        const button = event.currentTarget;
+        
+        const empId = button.dataset.empId;
+        var emp_id = empId;
+        console.log("-----emp_id---",empId)
+        try {
+
+            await this.orm.call("hr.employee", "emp_data", [[], emp_id]);
+        } catch (error) {
+            console.error("Error calling emp_data:", error);
+        }
+
         this.actionService.doAction({
             name: _t("Pump Line Datas"),
             type: 'ir.actions.act_window',

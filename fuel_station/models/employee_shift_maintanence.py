@@ -25,13 +25,45 @@ class HrEmployeeShiftManage(models.Model):
         print("===================",employees)
 
 
+        # cr.execute("""
+        #     SELECT s.id, s.employee_id, s.shift_id, s.shift_start_date, s.shift_end_date,  s.pump_id, s.check_closing
+        #     FROM employee_shift_manage s
+        # """)
+        # all_created_records = {row[0]: {"id": row[0], "employee_id": row[1], "shift_id": row[2],"shift_start_date":row[3],
+        #                        "shift_end_date":row[4], "pump_id":row[5], "check_closing":row[6]} for row in cr.fetchall()}
+        # print("=======all_created_records==========",all_created_records)
         cr.execute("""
-            SELECT s.id, s.employee_id, s.shift_id, s.shift_start_date, s.shift_end_date,  s.pump_id
+            SELECT s.id, s.employee_id, s.shift_id, s.shift_start_date, 
+                s.shift_end_date, s.pump_id, s.check_closing
             FROM employee_shift_manage s
+            WHERE s.id IN (
+                SELECT MAX(sub.id) 
+                FROM employee_shift_manage sub
+                GROUP BY sub.employee_id
+            )
         """)
-        all_created_records = {row[0]: {"id": row[0], "employee_id": row[1], "shift_id": row[2],"shift_start_date":row[3],
-                               "shift_end_date":row[4], "pump_id":row[5]} for row in cr.fetchall()}
-        print("=======all_created_records==========",all_created_records)
+        latest_records = cr.fetchall()
+
+        if latest_records:
+            last_records = {
+                row[1]: { 
+                    "id": row[0],
+                    "employee_id": row[1],
+                    "shift_id": row[2],
+                    "shift_start_date": row[3],
+                    "shift_end_date": row[4],
+                    "pump_id": row[5],
+                    "check_closing": row[6],
+                }
+                for row in latest_records
+            }
+
+            print("======= Latest Shift Record Per Employee ==========", last_records)
+        else:
+            print("No records found.")
+
+
+
 
         cr.execute("""
                 SELECT s.id, s.name, s.work_schedule
@@ -69,7 +101,8 @@ class HrEmployeeShiftManage(models.Model):
 
         return {
             "employees": list(employees.values()),
-            "created_shift":list(all_created_records.values()),
+            # "created_shift":list(all_created_records.values()),
+            "created_shift":list(last_records.values()),
             "shift_types":list(shift_types.values()),
             "pumps_types":list(pumps.values()),
             "work_schedule":list(work_schedule.values()),

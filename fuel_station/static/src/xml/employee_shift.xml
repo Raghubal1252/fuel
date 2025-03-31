@@ -7,7 +7,7 @@
             </div>
 
             <div class="d-flex justify-content-end"> 
-                <select class="form-select employee-select" style="width: 300px;" t-on-change="filterEmployees">
+                <select class="form-select employee-select"  style="width: 300px;" t-on-change="filterEmployees">
                     <option value="">Select an Employee</option>
                     <option t-foreach="data.employees" t-as="employee" t-key="employee.id"
                             t-att-value="employee.id">
@@ -37,36 +37,79 @@
                     
                         <td t-esc="employee.name"/>
 
+                        <t t-set="created_shift" t-value="False"/>
+                        <t t-foreach="data.created_shift" t-as="created" t-key="created.id">
+                            <t t-if="created.employee_id == employee.id">
+                                <t t-set="created_shift" t-value="created"/>
+                            </t>
+                        </t>
+
 
                         <td>
-                            <select class="form-select shift-select">
-                                <option value="">Select a shift</option>
-                                <option t-foreach="data.shift_types" t-as="shift" t-key="shift.id"
-                                    t-att-value="shift.id">
-                                    <t t-esc="shift.name"/>
-                                </option>
-                            </select>
+                            
+                            <t t-if="created_shift and created_shift.check_closing">
+                                <select class="form-select shift-select" disabled="True">
+                                    <option value="">Shift not Closed</option>
+                                    <option t-foreach="data.shift_types" t-as="shift" t-key="shift.id"
+                                        t-att-value="shift.id">
+                                        <t t-esc="shift.name"/>
+                                    </option>
+                                </select>
+                            </t>
+                            <t t-else="">
+                                <select class="form-select shift-select" >
+                                    <option value="">Select a shift</option>
+                                    <option t-foreach="data.shift_types" t-as="shift" t-key="shift.id"
+                                        t-att-value="shift.id">
+                                        <t t-esc="shift.name"/>
+                                    </option>
+                                </select>
+                            </t>
                         </td>
 
                         <td>
-                            <select class="form-select parent-select" t-on-change="fetchParent">
-                                <option value="">Select a Pump</option>
-                                <option t-foreach="data.parent_pumps" t-as="parentpump" t-key="parentpump.id"
-                                    t-att-value="parentpump.id">
-                                    <t t-esc="parentpump.name"/>
-                                </option>
-                            </select>
+                            
+                            <t t-if="created_shift and created_shift.check_closing">
+                                <select class="form-select parent-select" disabled="True" t-on-change="fetchParent">
+                                    <option value="">Shift not Closed</option>
+                                    <option t-foreach="data.parent_pumps" t-as="parentpump" t-key="parentpump.id"
+                                        t-att-value="parentpump.id">
+                                        <t t-esc="parentpump.name"/>
+                                    </option>
+                                </select>
+                            </t>
+                            <t t-else="">
+                                <select class="form-select parent-select" t-on-change="fetchParent">
+                                    <option value="">Select a Pump</option>
+                                    <option t-foreach="data.parent_pumps" t-as="parentpump" t-key="parentpump.id"
+                                        t-att-value="parentpump.id">
+                                        <t t-esc="parentpump.name"/>
+                                    </option>
+                                </select>
+                            </t>
                         </td>
 
 
                         <td>
-                            <select class="form-select pump-select">
-                                <option value="">Select a Nozzle</option>
-                                <option t-foreach="employee.filtres_nozzel || []" t-as="pump" t-key="pump.id"
-                                    t-att-value="pump.id">
-                                    <t t-esc="pump.name"/>
-                                </option>
-                            </select>
+                            
+                            <t t-if="created_shift and created_shift.check_closing">
+                                <select class="form-select pump-select" disabled="True">
+                                    <option value="">Shift not Closed</option>
+                                    <option t-foreach="employee.filtres_nozzel || []" t-as="pump" t-key="pump.id"
+                                        t-att-value="pump.id">
+                                        <t t-esc="pump.name"/>
+                                    </option>
+                                </select>
+                            </t>
+                            <t t-else="">
+                                <select class="form-select pump-select">
+                                    <option value="">Select a Nozzle</option>
+                                    <option t-foreach="employee.filtres_nozzel || []" t-as="pump" t-key="pump.id"
+                                        t-att-value="pump.id">
+                                        <t t-esc="pump.name"/>
+                                    </option>
+                                </select>
+                            </t>
                         </td>
 
                     </tr>

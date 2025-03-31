@@ -174,21 +174,21 @@
                             <div class="col-6">
                             </div>
                             <div class="col-6">
-                                <table style="page-break-inside: avoid;">
-                                    <thead>
-                                        <th class="text-center"
-                                            style="width: 3%; font-weight:bold; background-color: #0048ad; color:#fff;">
-                                            Sl.No.
-                                        </th>
-                                        <th class="text-center"
-                                            style="width: 10%; font-weight:bold; background-color: #0048ad; color:#fff;">
-                                            Payment Mode
-                                        </th>
-                                        <th class="text-center"
-                                            style="width: 10%; font-weight:bold; background-color: #0048ad; color:#fff;">
-                                            Total
-                                        </th>
-                                    </thead>
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr>
+                                            <td class="text-center"
+                                                style="width: 3%; font-weight:bold; background-color: #0048ad; color:#fff;">
+                                                Sl.No.
+                                            </td>
+                                            <td class="text-center"
+                                                style="width: 10%; font-weight:bold; background-color: #0048ad; color:#fff;">
+                                                Payment Mode
+                                            </td>
+                                            <td class="text-center"
+                                                style="width: 10%; font-weight:bold; background-color: #0048ad; color:#fff;">
+                                                Total
+                                            </td>
+                                        </tr>
                                     <tbody>
                                         <t t-foreach="journal_dict" t-as="j">
                                             <t t-if="j_value">
@@ -209,7 +209,7 @@
                                                 </tr>
                                             </t>
                                         </t>
-                                    </tbody>
+                                    </tbody> 
                                 </table>
                             </div>
                         </div>

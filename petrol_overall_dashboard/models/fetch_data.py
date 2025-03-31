@@ -78,12 +78,12 @@ class SaleOrder(models.Model):
                 value['data']['diesel']['purchase'] = "{:,.2f}".format(i['purchase_price'])
                 sale_total += i['sale_price']
                 purchase_total += i['purchase_price']
-            if i['id'] == self.env.ref('petrol_station_dashboard.fuel_type_dw_template').id:
-                print('==========distilled_water==========s=====')
-                value['data']['distilled_water']['sale'] = "{:,.2f}".format(i['sale_price'])
-                value['data']['distilled_water']['purchase'] = "{:,.2f}".format(i['purchase_price'])
-                sale_total += i['sale_price']
-                purchase_total += i['purchase_price']
+            # if i['id'] == self.env.ref('petrol_station_dashboard.fuel_type_dw_template').id:
+            #     print('==========distilled_water==========s=====')
+            #     value['data']['distilled_water']['sale'] = "{:,.2f}".format(i['sale_price'])
+            #     value['data']['distilled_water']['purchase'] = "{:,.2f}".format(i['purchase_price'])
+            #     sale_total += i['sale_price']
+            #     purchase_total += i['purchase_price']
             if i['product_templ_id'].categ_id.id == self.env.ref('petrol_station_dashboard.fuel_type_oil_categ_id').id:
                 value['data']['oil']['sale'] = "{:,.2f}".format(i['sale_price'])
                 value['data']['oil']['purchase'] = "{:,.2f}".format(i['purchase_price'])

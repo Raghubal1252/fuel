@@ -43,7 +43,7 @@
             id="shift_master_menu"
             name="Shift Master"
             action="shift_master_action"
-            parent="hr.menu_hr_employee_payroll"
+            parent="hr.menu_human_resources_configuration"
             sequence="10"/>
 
     </data>

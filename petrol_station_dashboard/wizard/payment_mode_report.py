@@ -48,7 +48,7 @@ class PaymentModePDFReport(models.AbstractModel):
                 j_name.append(journal_list.name)
                 print("-------j_name----",j_name)
         if journal:
-            journal_dictionary = {journal_name: 0 for journal_name in journal_list}
+            journal_dictionary = {journal_name: 0 for journal_name in j_name}
             print("---journal_dictionary---",journal_dictionary)
             total_amount = 0.00
             for k in journal:

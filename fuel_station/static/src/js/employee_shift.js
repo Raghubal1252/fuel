@@ -35,6 +35,7 @@ export class EmployeeShiftDashbord extends Component {
         this.data.pumps_types = result.pumps_types;
         console.log("----this.data.pumps_types----",this.data.pumps_types)
         this.data.created_shift = result.created_shift;
+        console.log("-----this.data.created_shift-----",this.data.created_shift);
         this.data.parent_pumps = result.parent_pumps;
         console.log("-----this.data.parent_pumps-----",this.data.parent_pumps);
     }

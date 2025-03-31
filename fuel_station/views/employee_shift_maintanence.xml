@@ -17,7 +17,7 @@
                                 <field name="shift_id"/>
                                 <field name="shift_work_schedule"/>
                                 <field name="pump_id" domain="[('parent_id', '!=', False), ('pump_sale_type', '=', 'nozzle')]"/>
-                                <field name="check_closing" />
+                                <!-- <field name="check_closing" invisible="1"/> -->
                             </list>
                         </field>
                     </page>

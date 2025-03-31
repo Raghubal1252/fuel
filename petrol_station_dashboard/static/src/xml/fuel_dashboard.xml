@@ -199,6 +199,7 @@
                                                     <button class="btn btn-danger open_record"
                                                             t-on-click="pump_data_function"
                                                             t-att-type="category.pump_sale_type"
+                                                            t-att-data-emp-id="category.employee_id"
                                                             t-att-ids="category.id" t-att-id="pump_data_function"
                                                             t-att-machine="category.machine_id">Closing Statement</button>
                                                 </t>
